@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="w16_crm"
+  id="myeclipse.1541385373216"
+  context-root="/w16_crm"
+  j2ee-spec="5.0"
+  archive="w16_crm.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

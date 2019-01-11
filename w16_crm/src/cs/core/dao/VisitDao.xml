@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+     
+     
+<mapper namespace="cs.core.dao.VisitDao">
+    <!--SQL片段  -->
+    <sql id="selectVisitListWhere">
+        <where>
+	       <if test="customer_name != null" >
+	           customer_name like "%"#{customer_name}"%"
+	       </if>
+	       <if test="cust_source != null" >
+	        and cust_source = #{cust_source}
+	       </if>
+	       <if test="cust_industry != null" >
+	        and cust_industry = #{cust_industry}
+	       </if>
+	       <if test="cust_level != null" >
+	        and cust_level = #{cust_level}
+	       </if>
+        </where>
+    </sql>
+    
+    
+	<!-- 查询客户列表  -->
+	<select id="selectVisitList" parameterType="visitInfo" 
+                                           resultType="visitInfo">
+	SELECT
+	visit_id,
+	customer_id,
+	customer_name,
+	c.dict_item_name cust_source,
+	d.dict_item_name cust_industry,
+	e.dict_item_name cust_level,
+	user_id,
+	user_name,
+	visit_type,
+	visit_place,
+	remark,
+	visit_time
+FROM
+	visit AS a
+LEFT JOIN (
+	SELECT
+		cust_id,
+		cust_source,
+		cust_industry,
+		cust_level
+	FROM
+		customer
+) AS b ON b.cust_id = a.customer_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '002'
+) c ON b.cust_source = c.dict_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '001'
+) d ON b.cust_industry = d.dict_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '006'
+) e ON b.cust_level = e.dict_id
+		<include refid="selectVisitListWhere"/>
+		<!-- 执行分页查询 -->
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	
+	
+	
+	<!-- 查询客户总数 -->
+	<select id="selectVisitListCount" parameterType="visitInfo" 
+                                                 resultType="Integer">
+		select count(*) from 
+		
+		(SELECT
+	visit_id,
+	customer_id,
+	customer_name,
+	c.dict_item_name cust_source,
+	d.dict_item_name cust_industry,
+	e.dict_item_name cust_level,
+	user_id,
+	user_name,
+	visit_type,
+	visit_place,
+	remark,
+	visit_time
+FROM
+	visit AS a
+LEFT JOIN (
+	SELECT
+		cust_id,
+		cust_source,
+		cust_industry,
+		cust_level
+	FROM
+		customer
+) AS b ON b.cust_id = a.customer_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '002'
+) c ON b.cust_source = c.dict_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '001'
+) d ON b.cust_industry = d.dict_id
+LEFT JOIN (
+	SELECT
+		dict_id,
+		dict_item_name
+	FROM
+		base_dict
+	WHERE
+		dict_type_code = '006'
+) e ON b.cust_level = e.dict_id
+		<include refid="selectVisitListWhere"/>
+		)
+		AS f
+
+	</select>	
+	
+	<!-- 添加客户 -->
+	<insert id="createVisit" parameterType="visitInfo">
+	    insert into visit(
+	                     customer_id,
+	                     customer_name,
+	                     user_id,
+	                     user_name,
+	                     visit_type,
+	                     visit_place,
+	                     visit_time,
+	                     remark       
+	             )
+	             values(#{customer_id},
+	                    #{customer_name},
+	                    #{user_id},
+	                    #{user_name},
+	                    #{visit_type},
+	                    #{visit_place},
+	                    #{visit_time},
+	                    #{remark}
+	            )
+	</insert>
+	
+	
+	<!-- 根据id获取客户信息 -->
+	<select id="getVisitById" parameterType="Integer" 
+	resultType="visitInfo">
+	    select * from visit where visit_id = #{id}
+	</select>
+	
+	
+	<!-- 更新客户 -->
+	<update id="updateVisit" parameterType="visitInfo">
+	    update visit
+	    <set>
+	        <if test="customer_id!=null">
+	            customer_id=#{customer_id},
+	        </if>
+	        <if test="customer_name!=null">
+	            customer_name=#{customer_name},
+	        </if>
+	        <if test="user_id!=null">
+	            user_id=#{user_id},
+	        </if>
+	        <if test="user_name!=null">
+	            user_name=#{user_name},
+	        </if>
+	        <if test="visit_type!=null">
+	            visit_type=#{visit_type},
+	        </if>
+	        <if test="visit_place!=null">
+	            visit_place=#{visit_place},
+	        </if>
+	        <if test="visit_time!=null">
+	            visit_time=#{visit_time},
+	        </if>
+	        <if test="remark!=null">
+	            remark=#{remark},
+	        </if>	       
+	    </set>
+	    where visit_id=#{visit_id}
+	</update>
+	
+	
+	<!-- 删除客户 -->
+	<delete id="deleteVisit" parameterType="Integer">
+	    delete from visit where visit_id=#{id}
+	</delete>
+	
+	
+</mapper>
