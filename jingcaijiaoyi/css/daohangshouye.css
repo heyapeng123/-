@@ -1,0 +1,102 @@
+@CHARSET "UTF-8";
+*{
+margin: 0px;
+padding:0px;
+}
+#logo{
+background: url("../images/guanli1.png") no-repeat center;
+width: 100%;
+height:130px;
+}
+#zhongbu{
+width:1500px;
+height:650px;
+margin: auto;
+}
+#daohang{
+width:270px;
+height:650px;
+float: left;
+background: url("../images/guanli2.png");
+}
+#daohang ul li{
+width: 270px;
+height: 50px;
+list-style: none;
+margin-top: 20px;
+}
+#daohang ul li a{
+font-size: 30px;
+font-family: inherit;
+color: #ffffff;
+text-decoration: none;
+text-align: center;
+line-height: 50px;
+}
+#daohang ul li a:hover{
+display:block;
+width:270px;
+height:50px;
+background-color:#999999;
+font-size: 30px;
+font-family: inherit;
+color: #ffffff;
+text-decoration: none;
+}
+#neirong{
+width:1228px;
+height:650px;
+float: left;
+border-right:#999999 2px solid ;
+}
+#dibu{
+background: url("../images/guanli3.png") no-repeat center;
+width:100%;
+height:120px;
+
+}
+#dibu p{
+text-align: center;
+padding-top: 30px;
+
+}
+/*导航管理*/
+#beijing {
+display:block;
+width:270px;
+height:50px;
+background-color:#999999;
+font-size: 30px;
+font-family: inherit;
+color: #ffffff;
+text-decoration: none;
+}
+#neirong ul li{
+
+height: 50px;
+float: left;
+list-style: none;
+margin-top: 20px;
+margin-left: 100px;
+}
+#neirong ul li a{
+font-size: 25px;
+color: #666666;
+text-decoration: none;
+text-align: center;
+line-height: 50px;
+}
+#neirong ul li a:hover{
+display:block;
+width:130px;
+height:50px;
+background-color:#cccccc;
+font-size: 28px;
+color: #666666;
+text-decoration: none;
+text-align: center;
+line-height: 50px;
+}
+
+
+
